@@ -1,0 +1,14 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: springboot-jwt
+config:
+  jwt:
+    # 加密密钥
+    secret: AugustVonParseval
+    # token有效时长
+    expire: 3600
+    # header 名称
+    header: token
