@@ -30,7 +30,7 @@ public class LoginController {
 
     @ApiOperation("用户登录")
     @PostMapping("/login")
-    public LoginEntity login(@ApiParam("用户")UserEntity user) {
+    public LoginEntity login(@ApiParam("用户名")@RequestBody UserEntity user) {
         UserEntity userEntity = userEntityRepository.findByUsername(user.getUsername());
         if (userEntity == null) {
             LoginEntity loginInfo = new LoginEntity();
@@ -42,8 +42,8 @@ public class LoginController {
             LoginEntity loginInfo = new LoginEntity();
             loginInfo.setCode("200");
             loginInfo.setMsg("登录成功");
-            loginInfo.setToken(JwtUtil.createToken(user.getUsername(), user.getRole()));
-            loginInfo.setRole(user.getRole());
+            loginInfo.setToken(JwtUtil.createToken(userEntity.getUsername(), userEntity.getRole()));
+            loginInfo.setRole(userEntity.getRole());
             return loginInfo;
         } else {
             LoginEntity loginInfo = new LoginEntity();
