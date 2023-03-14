@@ -13,11 +13,13 @@ import javax.persistence.Table;
 public class UserEntity {
     @Id
     @Column(name = "id", nullable = false)
-    private Long id;
+    private int id;
 
     private String username;
     private String password;
-    private String nickname;
-    private String email;
+    private String name;
+    private String number;
+    @Column(name = "class", nullable = false)
+    private String classNumber;
     private String role;
 }

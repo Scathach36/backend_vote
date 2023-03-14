@@ -7,10 +7,7 @@ import com.wechat.vote.util.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,23 +22,23 @@ public class LoginController {
     }
 
     @ApiOperation("token校验")
-    @GetMapping("/checkToken")
+    @PostMapping("/checkToken")
     public Boolean checkToken(HttpServletRequest request) {
         String token = request.getHeader("token");
         return JwtUtil.checkToken(token);
     }
 
     @ApiOperation("用户登录")
-    @GetMapping("/login")
-    public LoginEntity login(@ApiParam("用户名")@RequestParam("username")String username, @ApiParam("密码")@RequestParam("password") String password) {
-        UserEntity user = userEntityRepository.findByUsername(username);
-        if (user == null) {
+    @PostMapping("/login")
+    public LoginEntity login(@ApiParam("用户")UserEntity user) {
+        UserEntity userEntity = userEntityRepository.findByUsername(user.getUsername());
+        if (userEntity == null) {
             LoginEntity loginInfo = new LoginEntity();
             loginInfo.setCode("200");
             loginInfo.setMsg("用户不存在");
             return loginInfo;
         }
-        if (user.getPassword().equals(password)) {
+        if (userEntity.getPassword().equals(user.getPassword())) {
             LoginEntity loginInfo = new LoginEntity();
             loginInfo.setCode("200");
             loginInfo.setMsg("登录成功");
