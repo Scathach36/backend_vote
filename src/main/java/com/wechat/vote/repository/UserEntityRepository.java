@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByUsername(@Param("username") String username);
+
+    boolean existsByUsername(String username);
+
+    boolean existsByNumber(String number);
 }
