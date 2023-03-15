@@ -31,7 +31,7 @@ public class UserController {
         return userEntityRepository.findByUsername(username);
     }
 
-    @ApiOperation("添加新用户")
+    @ApiOperation("添加新用户/修改用户信息")
     @PostMapping("/save")
     public void save(@ApiParam("用户")@RequestBody UserEntity user) {
         userEntityRepository.save(user);
