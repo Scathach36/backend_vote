@@ -6,6 +6,7 @@ import com.wechat.vote.util.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +17,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/login")
 public class LoginController {
-    private final UserEntityRepository userEntityRepository;
-
-    public LoginController(UserEntityRepository userEntityRepository) {
-        this.userEntityRepository = userEntityRepository;
-    }
+    @Autowired
+    private UserEntityRepository userEntityRepository;
 
     @ApiOperation("token校验")
     @PostMapping("/checkToken")
