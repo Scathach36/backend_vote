@@ -6,6 +6,7 @@ import com.wechat.vote.repository.VoteEntityRepository;
 import com.wechat.vote.repository.VoteOptionEntityRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class VoteController {
     @ApiOperation("新增投票")
     @PostMapping("/saveOne")
     @ResponseBody
-    public Map<String, Object> saveOne(@RequestBody VoteEntity voteEntity) {
+    public Map<String, Object> saveOne(@ApiParam("投票信息")@RequestBody VoteEntity voteEntity) {
         Map<String, Object> json = new HashMap<>();
         VoteEntity vote = new VoteEntity();
 
