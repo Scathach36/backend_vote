@@ -22,7 +22,7 @@ public class VoteEntity {
     private int multi;
     private int min;
     private int max;
-    private int annoymous;
+    private int anonymous;
 
     @Column(name = "create_by")
     private String createBy;

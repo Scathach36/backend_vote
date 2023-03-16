@@ -6,8 +6,6 @@ import com.wechat.vote.repository.VoteEntityRepository;
 import com.wechat.vote.repository.VoteOptionEntityRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,37 +33,51 @@ public class VoteController {
     public List<VoteOptionEntity> getAllVoteOption() { return voteOptionEntityRepository.findAll(); }
 
     @ApiOperation("新增投票")
-    @PostMapping("/saveOne")
-    @ResponseBody
-    public Map<String, Object> saveOne(@ApiParam("投票信息")@RequestBody VoteEntity voteEntity, @RequestParam("options") List<String> options) {
+    @PostMapping("/saveVote")
+    public Map<String, Object> saveVote(@RequestBody VoteEntity voteEntity) {
         Map<String, Object> json = new HashMap<>();
         VoteEntity vote = new VoteEntity();
-        List<VoteOptionEntity> optionsList = new ArrayList<>();
 
         Date createTime = new Date();
         Date endTime = voteEntity.getEmdTime();
 
+        vote.setTitle(voteEntity.getTitle());
+        vote.setDescription(voteEntity.getDescription());
+        vote.setMulti(voteEntity.getMulti());
+        vote.setAnonymous(voteEntity.getAnonymous());
+        vote.setCreateBy(voteEntity.getCreateBy());
         vote.setCreateTime(createTime);
         vote.setEmdTime(endTime);
+        vote.setClassNumber(vote.getClassNumber());
 
         VoteEntity res = voteEntityRepository.save(vote);
         int voteId = res.getId();
 
-        for(String option : options) {
-            VoteOptionEntity voteOptionEntity = new VoteOptionEntity();
-            voteOptionEntity.setVoteId(voteId);
-            voteOptionEntity.setDescription(option);
-            voteOptionEntity.setCreateTime(createTime);
-            optionsList.add(voteOptionEntity);
-        }
-        System.out.println(optionsList);
-        voteOptionEntityRepository.saveAll(optionsList);
-
-
         json.put("code",200);
         json.put("msg","新增投票成功");
+        json.put("title",voteEntity);
         json.put("time",createTime);
         json.put("id",voteId);
+
+        return json;
+    }
+
+    @ApiOperation("投票选项录入")
+    @PostMapping("/saveAllOptions")
+    @ResponseBody
+    public Map<String, Object> saveAllOptions(@RequestBody List<VoteOptionEntity> voteOptionEntities) {
+        Map<String, Object> json = new HashMap<>();
+
+        Date createTime = new Date();
+
+        for(VoteOptionEntity option : voteOptionEntities) {
+            option.setCreateTime(createTime);
+        }
+
+        voteOptionEntityRepository.saveAll(voteOptionEntities);
+
+        json.put("code",200);
+        json.put("msg","选项添加成功");
 
         return json;
     }
