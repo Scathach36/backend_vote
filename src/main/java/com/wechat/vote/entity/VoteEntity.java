@@ -14,6 +14,7 @@ import java.util.Date;
 public class VoteEntity {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String title;
@@ -38,4 +39,5 @@ public class VoteEntity {
 
     @Column(name = "class")
     private String classNumber;
+
 }

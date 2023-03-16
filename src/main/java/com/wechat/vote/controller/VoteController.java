@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Api(tags = "投票管理")
 @RestController
@@ -40,9 +37,10 @@ public class VoteController {
     @ApiOperation("新增投票")
     @PostMapping("/saveOne")
     @ResponseBody
-    public Map<String, Object> saveOne(@ApiParam("投票信息")@RequestBody VoteEntity voteEntity) {
+    public Map<String, Object> saveOne(@ApiParam("投票信息")@RequestBody VoteEntity voteEntity, @RequestParam("options") List<String> options) {
         Map<String, Object> json = new HashMap<>();
         VoteEntity vote = new VoteEntity();
+        List<VoteOptionEntity> optionsList = new ArrayList<>();
 
         Date createTime = new Date();
         Date endTime = voteEntity.getEmdTime();
@@ -50,10 +48,24 @@ public class VoteController {
         vote.setCreateTime(createTime);
         vote.setEmdTime(endTime);
 
-        voteEntityRepository.save(vote);
+        VoteEntity res = voteEntityRepository.save(vote);
+        int voteId = res.getId();
+
+        for(String option : options) {
+            VoteOptionEntity voteOptionEntity = new VoteOptionEntity();
+            voteOptionEntity.setVoteId(voteId);
+            voteOptionEntity.setDescription(option);
+            voteOptionEntity.setCreateTime(createTime);
+            optionsList.add(voteOptionEntity);
+        }
+        System.out.println(optionsList);
+        voteOptionEntityRepository.saveAll(optionsList);
+
+
         json.put("code",200);
         json.put("msg","新增投票成功");
         json.put("time",createTime);
+        json.put("id",voteId);
 
         return json;
     }
