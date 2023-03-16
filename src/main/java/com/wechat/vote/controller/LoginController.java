@@ -45,6 +45,7 @@ public class LoginController {
             data.put("role",userEntity.getRole());
             data.put("classNumber",userEntity.getClassNumber());
             data.put("number",userEntity.getNumber());
+            data.put("name",userEntity.getName());
             json.put("data",data);
             return json;
         } else {
