@@ -48,14 +48,14 @@ public class VoteController {
         vote.setCreateBy(voteEntity.getCreateBy());
         vote.setCreateTime(createTime);
         vote.setEmdTime(endTime);
-        vote.setClassNumber(vote.getClassNumber());
+        vote.setClassNumber(voteEntity.getClassNumber());
 
         VoteEntity res = voteEntityRepository.save(vote);
         int voteId = res.getId();
 
         json.put("code",200);
         json.put("msg","新增投票成功");
-        json.put("title",voteEntity);
+        json.put("title",voteEntity.getTitle());
         json.put("time",createTime);
         json.put("id",voteId);
 
@@ -78,6 +78,19 @@ public class VoteController {
 
         json.put("code",200);
         json.put("msg","选项添加成功");
+
+        return json;
+    }
+
+    @ApiOperation("根据班级查找投票")
+    @PostMapping("/findAllByClassNumber")
+    @ResponseBody
+    public Map<String, Object> findAllByClassNumber(@RequestBody String classNumber) {
+        Map<String, Object> json = new HashMap<>();
+        List<VoteEntity> voteList = voteEntityRepository.findAllByClassNumber(classNumber);
+
+        json.put("code",200);
+        json.put("list", voteList);
 
         return json;
     }
