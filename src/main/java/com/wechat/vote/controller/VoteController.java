@@ -39,7 +39,6 @@ public class VoteController {
         VoteEntity vote = new VoteEntity();
 
         Date createTime = new Date();
-        Date endTime = voteEntity.getEmdTime();
 
         vote.setTitle(voteEntity.getTitle());
         vote.setDescription(voteEntity.getDescription());
@@ -47,7 +46,7 @@ public class VoteController {
         vote.setAnonymous(voteEntity.getAnonymous());
         vote.setCreateBy(voteEntity.getCreateBy());
         vote.setCreateTime(createTime);
-        vote.setEmdTime(endTime);
+        vote.setEndTime(voteEntity.getEndTime());
         vote.setClassNumber(voteEntity.getClassNumber());
 
         VoteEntity res = voteEntityRepository.save(vote);
@@ -57,6 +56,7 @@ public class VoteController {
         json.put("msg","新增投票成功");
         json.put("title",voteEntity.getTitle());
         json.put("time",createTime);
+        json.put("endTime", voteEntity.getEndTime());
         json.put("id",voteId);
 
         return json;
@@ -85,9 +85,9 @@ public class VoteController {
     @ApiOperation("根据班级查找投票")
     @PostMapping("/findAllByClassNumber")
     @ResponseBody
-    public Map<String, Object> findAllByClassNumber(@RequestBody String classNumber) {
+    public Map<String, Object> findAllByClassNumber(@RequestBody VoteEntity voteEntity) {
         Map<String, Object> json = new HashMap<>();
-        List<VoteEntity> voteList = voteEntityRepository.findAllByClassNumber(classNumber);
+        List<VoteEntity> voteList = voteEntityRepository.findAllByClassNumber(voteEntity.getClassNumber());
 
         json.put("code",200);
         json.put("list", voteList);

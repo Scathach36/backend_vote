@@ -27,15 +27,13 @@ public class VoteEntity {
     @Column(name = "create_by")
     private String createBy;
 
-    @Column(name = "create_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    @Column(name = "end_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date emdTime;
+    private Date endTime;
 
     private String classNumber;
 
