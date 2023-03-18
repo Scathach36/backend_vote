@@ -119,4 +119,17 @@ public class VoteController {
 
         return json;
     }
+
+    @ApiOperation("根据标题查找投票")
+    @PostMapping("/findAllByTitle")
+    public Map<String, Object> findAllByTitle(@RequestBody VoteEntity voteEntity) {
+        Map<String, Object> json = new HashMap<>();
+
+        List<VoteEntity> voteList = voteEntityRepository.findByTitleLike("%"+voteEntity.getTitle()+"%");
+
+        json.put("code", 200);
+        json.put("list", voteList);
+
+        return json;
+    }
 }
