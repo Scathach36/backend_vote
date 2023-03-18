@@ -37,7 +37,6 @@ public class VoteEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date emdTime;
 
-    @Column(name = "class")
     private String classNumber;
 
 }
