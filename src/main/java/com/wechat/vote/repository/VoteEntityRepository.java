@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface VoteEntityRepository extends JpaRepository<VoteEntity, Long> {
     List<VoteEntity> findAllByClassNumber(String classNumber);
+
+    VoteEntity findById(int id);
 }

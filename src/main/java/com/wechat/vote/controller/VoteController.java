@@ -94,4 +94,29 @@ public class VoteController {
 
         return json;
     }
+
+    @ApiOperation("根据id查找投票")
+    @PostMapping("/findById")
+    public Map<String, Object> findById(@RequestBody VoteEntity voteEntity) {
+        Map<String, Object> json = new HashMap<>();
+        VoteEntity vote = voteEntityRepository.findById(voteEntity.getId());
+
+        json.put("code",200);
+        json.put("vote", vote);
+
+        return json;
+    }
+
+    @ApiOperation("根据投票id查找投票选项")
+    @PostMapping("/findOptionsByVoteId")
+    public Map<String, Object> findOptionsByVoteId(@RequestBody VoteOptionEntity voteOptionEntity) {
+        Map<String, Object> json = new HashMap<>();
+        List<VoteOptionEntity> optionList = voteOptionEntityRepository.findAllByVoteId(voteOptionEntity.getVoteId());
+
+
+        json.put("code",200);
+        json.put("list", optionList);
+
+        return json;
+    }
 }
