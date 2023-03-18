@@ -95,6 +95,19 @@ public class VoteController {
         return json;
     }
 
+    @ApiOperation("根据创建者查找投票")
+    @PostMapping("/findAllByCreate")
+    @ResponseBody
+    public Map<String, Object> findAllByCreate(@RequestBody VoteEntity voteEntity) {
+        Map<String, Object> json = new HashMap<>();
+        List<VoteEntity> voteList = voteEntityRepository.findAllByCreateBy(voteEntity.getCreateBy());
+
+        json.put("code",200);
+        json.put("list", voteList);
+
+        return json;
+    }
+
     @ApiOperation("根据id查找投票")
     @PostMapping("/findById")
     public Map<String, Object> findById(@RequestBody VoteEntity voteEntity) {

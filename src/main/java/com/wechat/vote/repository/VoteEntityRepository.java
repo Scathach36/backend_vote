@@ -13,4 +13,6 @@ public interface VoteEntityRepository extends JpaRepository<VoteEntity, Long> {
     VoteEntity findById(int id);
 
     List<VoteEntity> findByTitleLike(String title);
+
+    List<VoteEntity> findAllByCreateBy(String createBy);
 }
