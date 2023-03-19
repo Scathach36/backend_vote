@@ -16,11 +16,11 @@ public class VoteTicketEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int vote_id;
+    private int voteId;
 
-    private int option_id;
+    private int optionId;
 
-    private int user_id;
+    private int userId;
 
     private String username;
 
