@@ -163,4 +163,23 @@ public class VoteController {
 
         return json;
     }
+
+    @ApiOperation("tickets录入")
+    @PostMapping("/saveAllTickets")
+    public Map<String, Object> saveAllTickets(@RequestBody List<VoteTicketEntity> ticketList) {
+        Map<String, Object> json = new HashMap<>();
+        List<VoteTicketEntity> saveList = new ArrayList<>();
+        Date createTime = new Date();
+
+        for(VoteTicketEntity ticket: ticketList) {
+            ticket.setCreateTime(createTime);
+            saveList.add(ticket);
+        }
+
+        json.put("code",200);
+        json.put("msg","保存投票成功");
+        json.put("res",voteTicketEntityRepository.saveAll(saveList));
+
+        return json;
+    }
 }
