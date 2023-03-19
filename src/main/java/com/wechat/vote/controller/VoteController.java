@@ -2,8 +2,10 @@ package com.wechat.vote.controller;
 
 import com.wechat.vote.entity.VoteEntity;
 import com.wechat.vote.entity.VoteOptionEntity;
+import com.wechat.vote.entity.VoteTicketEntity;
 import com.wechat.vote.repository.VoteEntityRepository;
 import com.wechat.vote.repository.VoteOptionEntityRepository;
+import com.wechat.vote.repository.VoteTicketEntityRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class VoteController {
 
     @Autowired
     private VoteOptionEntityRepository voteOptionEntityRepository;
+
+    @Autowired
+    private VoteTicketEntityRepository voteTicketEntityRepository;
 
     @ApiOperation("获取所有投票信息")
     @GetMapping("/getVote")
@@ -142,6 +147,19 @@ public class VoteController {
 
         json.put("code", 200);
         json.put("list", voteList);
+
+        return json;
+    }
+
+    @ApiOperation("获取所有ticket选项")
+    @GetMapping("/getTickets")
+    public Map<String, Object> getTickets() {
+        Map<String, Object> json = new HashMap<>();
+
+        List<VoteTicketEntity> ticketList = voteTicketEntityRepository.findAll();
+
+        json.put("code",200);
+        json.put("list", ticketList);
 
         return json;
     }
