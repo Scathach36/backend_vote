@@ -185,4 +185,10 @@ public class VoteController {
 
         return json;
     }
+
+    @ApiOperation("根据投票人id查询投票记录是否存在")
+    @PostMapping("/existsByUserId")
+    public boolean existsByUserId(@RequestBody VoteTicketEntity ticket) {
+        return voteTicketEntityRepository.existsByUserId(ticket.getUserId());
+    }
 }
