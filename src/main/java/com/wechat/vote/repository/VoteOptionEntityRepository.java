@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface VoteOptionEntityRepository extends JpaRepository<VoteOptionEntity, Long> {
     List<VoteOptionEntity> findAllByVoteId(int voteId);
+
+    VoteOptionEntity findById(int id);
 }

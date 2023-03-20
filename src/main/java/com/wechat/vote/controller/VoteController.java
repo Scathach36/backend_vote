@@ -174,6 +174,9 @@ public class VoteController {
         for(VoteTicketEntity ticket: ticketList) {
             ticket.setCreateTime(createTime);
             saveList.add(ticket);
+
+            VoteOptionEntity option = voteOptionEntityRepository.findById(ticket.getOptionId());
+            option.setNumber(option.getNumber() + 1);
         }
 
         json.put("code",200);
