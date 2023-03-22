@@ -188,7 +188,28 @@ public class VoteController {
 
     @ApiOperation("根据投票人id查询投票记录是否存在")
     @PostMapping("/existsByUserId")
-    public boolean existsByUserId(@RequestBody VoteTicketEntity ticket) {
-        return voteTicketEntityRepository.existsByUserId(ticket.getUserId());
+    public Map<String, Object> existsByUserId(@RequestBody VoteTicketEntity ticket) {
+        Map<String, Object> json = new HashMap<>();
+
+        json.put("code",200);
+        json.put("exist",voteTicketEntityRepository.existsByUserIdAndVoteId(ticket.getUserId(),ticket.getVoteId()));
+        json.put("list",voteTicketEntityRepository.findAllByUserIdAndVoteId(ticket.getUserId(),ticket.getVoteId()));
+
+        return json;
+    }
+
+    @ApiOperation("根据id删除投票")
+    @PostMapping("/deleteVoteById")
+    public Map<String, Object> deleteVoteById(@RequestBody List<VoteEntity> voteEntityList) {
+        Map<String, Object> json = new HashMap<>();
+
+        for(VoteEntity vote: voteEntityList) {
+            voteEntityRepository.deleteById(vote.getId());
+        }
+
+        json.put("code",200);
+        json.put("msg","投票删除成功");
+
+        return json;
     }
 }
