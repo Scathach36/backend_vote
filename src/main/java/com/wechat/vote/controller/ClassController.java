@@ -54,7 +54,7 @@ public class ClassController {
         Map<String, Object> json = new HashMap<>();
         Map<String, Object> data = new HashMap<>();
 
-        List<ClassNumberEntity> classNumberEntityListList = classNumberEntityRepository.findAll();
+        List<ClassNumberEntity> classNumberEntityListList = classNumberEntityRepository.findByOrderByClassNumber();
         List<String> classList = new ArrayList<>();
 
         for (ClassNumberEntity classNumberEntity: classNumberEntityListList) {
