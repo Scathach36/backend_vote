@@ -45,6 +45,9 @@ public class VoteController {
 
         Date createTime = new Date();
 
+        if (voteEntity.getId() != 0) {
+            vote.setId(voteEntity.getId());
+        }
         vote.setTitle(voteEntity.getTitle());
         vote.setDescription(voteEntity.getDescription());
         vote.setMulti(voteEntity.getMulti());
@@ -209,6 +212,64 @@ public class VoteController {
 
         json.put("code",200);
         json.put("msg","投票删除成功");
+
+        return json;
+    }
+
+    @ApiOperation("投票选项更新")
+    @PostMapping("/updateOptions")
+    public Map<String, Object> updateOptions(@RequestBody List<VoteOptionEntity> options) {
+        Map<String, Object> json = new HashMap<>();
+
+        List<VoteOptionEntity> oldList = voteOptionEntityRepository.findAllByVoteId(options.get(0).getVoteId());
+        List<Integer> oldIds = new ArrayList<>();
+        for(VoteOptionEntity item: oldList) {
+            oldIds.add(item.getId());
+        }
+
+        List<Integer> iptIds = new ArrayList<>();
+        for(VoteOptionEntity item: options) {
+            iptIds.add(item.getId());
+        }
+
+
+        List<Integer> deletedIds = new ArrayList<>();
+        for (Integer item: oldIds) {
+            if (!iptIds.contains(item)) {
+                deletedIds.add(item);
+            }
+        }
+
+        List<VoteOptionEntity> saveList = new ArrayList<>();
+        for (VoteOptionEntity item: options) {
+            if (item.getId() == 0) {
+                saveList.add(item);
+            }
+        }
+
+        for (VoteOptionEntity item: options) {
+            for (VoteOptionEntity oldItem: oldList) {
+                if (item.getId() == oldItem.getId() && (!item.getDescription().equals(oldItem.getDescription()))) {
+                    saveList.add(item);
+                }
+            }
+        }
+
+
+        if (deletedIds.size() > 0) {
+            voteOptionEntityRepository.deleteSomeOptions(deletedIds);
+        }
+        if (saveList.size() > 0) {
+            voteOptionEntityRepository.saveAll(saveList);
+        }
+
+
+
+
+        json.put("code",200);
+        json.put("oldIds",oldIds);
+        json.put("iptIds",iptIds);
+        json.put("saveList",options);
 
         return json;
     }
