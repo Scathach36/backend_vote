@@ -19,4 +19,9 @@ public interface VoteOptionEntityRepository extends JpaRepository<VoteOptionEnti
     @Transactional
     @Query("delete from VoteOptionEntity v where v.id in ?1")
     void deleteSomeOptions(List<Integer> ids);
+
+    @Modifying
+    @Transactional
+    @Query("delete from  VoteOptionEntity v where v.voteId in ?1")
+    void deleteSomeOptionsByVoteIds(List<Integer> voteIds);
 }

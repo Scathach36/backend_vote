@@ -273,4 +273,23 @@ public class VoteController {
 
         return json;
     }
+
+    @ApiOperation("根据传入的id数组，批量删除投票")
+    @RequestMapping(value = "/deleteAllByIds", method = RequestMethod.POST)
+    public Map<String, Object> deleteAllByIds(@RequestBody Map<String, Object> map) {
+        Map<String, Object> json = new HashMap<>();
+
+        List<Integer> ids = (List<Integer>) map.get("ids");
+
+        if (ids.size() > 0) {
+            voteEntityRepository.deleteSomeVotes(ids);
+            voteOptionEntityRepository.deleteSomeOptionsByVoteIds(ids);
+            json.put("msg","删除成功");
+        }
+
+        json.put("code",200);
+
+
+        return json;
+    }
 }
