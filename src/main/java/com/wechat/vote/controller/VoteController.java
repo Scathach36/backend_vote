@@ -292,4 +292,25 @@ public class VoteController {
 
         return json;
     }
+
+    @ApiOperation("根据投票id查找tickets信息")
+    @RequestMapping(value = "/findTicketsByVoteId", method = RequestMethod.POST)
+    public Map<String, Object> findTicketsByVoteId(@RequestBody Map<String, Object> map) {
+        Map<String, Object> json = new HashMap<>();
+
+        int id = (int) map.get("id");
+
+        List<VoteTicketEntity> tickets = voteTicketEntityRepository.findAllByVoteId(id);
+
+        if (tickets.size() > 0) {
+            json.put("code",200);
+            json.put("list",tickets);
+        } else {
+            json.put("code", 200);
+            json.put("msg", "Error!");
+        }
+
+
+        return json;
+    }
 }

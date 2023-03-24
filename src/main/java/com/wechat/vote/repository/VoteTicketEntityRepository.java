@@ -9,4 +9,6 @@ public interface VoteTicketEntityRepository extends JpaRepository<VoteTicketEnti
     boolean existsByUserIdAndVoteId(int userId, int voteId);
 
     List<VoteTicketEntity> findAllByUserIdAndVoteId(int userId, int voteId);
+
+    List<VoteTicketEntity> findAllByVoteId(int id);
 }
