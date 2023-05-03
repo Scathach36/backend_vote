@@ -19,7 +19,9 @@ public class UserEntity {
     private String password;
     private String name;
     private String number;
-    @Column(name = "class", nullable = false)
+    @Column(name = "class", nullable = true)
     private String classNumber;
     private String role;
+
+    private String openid;
 }

@@ -25,6 +25,21 @@ public class JwtUtil {
         return jwtToken;
     }
 
+    public static String createToken(String openid) {
+        JwtBuilder jwtBuilder = Jwts.builder();
+        String jwtToken = jwtBuilder
+                .setHeaderParam("typ", "JWT")
+                .setHeaderParam("alg", "HS256")
+                .claim("openid", openid)
+                .setSubject("user")
+                .setExpiration(new Date(System.currentTimeMillis()+time))
+                .setId(UUID.randomUUID().toString())
+                .signWith(SignatureAlgorithm.HS256, signature)
+                .compact();
+
+        return jwtToken;
+    }
+
     public static boolean checkToken(String token) {
         if (token == null) {
             return false;

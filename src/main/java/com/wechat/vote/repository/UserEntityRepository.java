@@ -13,4 +13,8 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByUsername(String username);
 
     boolean existsByNumber(String number);
+
+    UserEntity findByOpenid(@Param("openid") String openid);
+
+    UserEntity findByUsernameAndPassword(@Param("username")String username, @Param("password")String password);
 }
