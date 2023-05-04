@@ -101,6 +101,7 @@ public class LoginController {
             userEntityRepository.save(userEntity);
             json.put("code",200);
             json.put("msg","登录成功");
+            json.put("id", userEntityRepository.findIdByOpenid(openid));
             data.put("token",JwtUtil.createToken(userEntity.getUsername(), userEntity.getRole()));
         }
         return json;
